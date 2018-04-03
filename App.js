@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
+import MapInput from './components/MapInput'
 
 export default class App extends React.Component {
   constructor() {
@@ -41,6 +42,7 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
+
         <MapView
           style={styles.map}
           region={{
@@ -55,6 +57,10 @@ export default class App extends React.Component {
               longitude: this.state.curLong,
             }}></Marker>
         </MapView>
+
+        <View style={styles.input}>
+          <MapInput />
+        </View>
       </View>
     );
   }
@@ -63,12 +69,21 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  },
+  input: {
+    zIndex: 1,
+    height: 50,
+    width: 350,
+    marginTop: 35,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    zIndex: 0
   },
 });
