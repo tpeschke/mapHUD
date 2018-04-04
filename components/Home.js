@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
 import MapInput from './MapInput'
 
+
 export default class Home extends Component {
     constructor() {
         super()
@@ -19,7 +20,6 @@ export default class Home extends Component {
       }
     
       componentDidMount() {
-          console.log(process.env['API_KEY'])
         navigator.geolocation
           .getCurrentPosition(e => this.setState({ curLat: e.coords.latitude, curLong: e.coords.longitude, lat: e.coords.latitude, long: e.coords.longitude }),
             (error) => alert(JSON.stringify(error)),
