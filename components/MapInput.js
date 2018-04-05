@@ -33,19 +33,25 @@ export default class MapInput extends Component {
                         // available options: https://developers.google.com/places/web-service/autocomplete
                         key: config.getAPIKEY(),
                         language: 'en', // language of the results
-                        // types: '(cities)' // default: 'geocode'
+                        types: '(cities)' // default: 'geocode'
                     }}
 
                     styles={{
                         textInputContainer: {
-                            width: '100%'
-                        },
-                        description: {
-                            fontWeight: 'bold'
-                        },
-                        predefinedPlacesDescription: {
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            borderTopWidth: 0,
+                            borderBottomWidth:0
+                          },
+                          textInput: {
+                            marginLeft: 0,
+                            marginRight: 0,
+                            height: 38,
+                            color: '#5d5d5d',
+                            fontSize: 16
+                          },
+                          predefinedPlacesDescription: {
                             color: '#1faadb'
-                        }
+                          },
                     }}
 
                     currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list

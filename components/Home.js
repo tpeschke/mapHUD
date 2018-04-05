@@ -16,7 +16,7 @@ export default class Home extends Component {
           id: null
         }
     
-        // this.retrievePosition = this.retrievePosition.bind(this)
+        this.retrievePosition = this.retrievePosition.bind(this)
       }
     
       componentDidMount() {
@@ -24,19 +24,19 @@ export default class Home extends Component {
           .getCurrentPosition(e => this.setState({ curLat: e.coords.latitude, curLong: e.coords.longitude, lat: e.coords.latitude, long: e.coords.longitude }),
             (error) => alert(JSON.stringify(error)),
             { enableHighAccuracy: true, maximumAge: 1000 })
-        // this.setState({ id: setInterval(_ => this.retrievePosition(), 2000) })
+        this.setState({ id: setInterval(_ => this.retrievePosition(), 2000) })
       }
     
       componentWillUnmount() {
-        // clearInterval(this.state.id)
+        clearInterval(this.state.id)
       }
     
-      // retrievePosition() {
-      //   navigator.geolocation
-      //     .watchPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }),
-      //       (error) => alert(JSON.stringify(error)),
-      //       { enableHighAccuracy: true, maximumAge: 1000, distanceFilter: 1 })
-      // }
+      retrievePosition() {
+        navigator.geolocation
+          .watchPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }),
+            (error) => alert(JSON.stringify(error)),
+            { enableHighAccuracy: true, maximumAge: 1000, distanceFilter: 1 })
+      }
     
       render() {
         const { region } = this.props;
@@ -46,7 +46,7 @@ export default class Home extends Component {
     
             <MapView
               style={styles.map}
-              region={{
+              initialRegion={{
                 latitude: this.state.lat,
                 longitude: this.state.long,
                 latitudeDelta: 0.015,
