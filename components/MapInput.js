@@ -1,77 +1,53 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import config from '../config'
+import Button from 'apsl-react-native-button'
+import axios from 'axios'
 
 export default class MapInput extends Component {
     constructor() {
         super()
 
         this.state = {
-            destination: ''
+            destination: '',
+            predictions: [],
+            height: 0
         }
     }
 
+    captureInput = (e) => {
+        this.setState({ destination: e.text })
+        axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${e.text}&key=${config.getAPIKEY()}&location=${this.props.lat},${this.props.long}`)
+            .then(res => {
+                this.setState({ predictions: res.data.predictions })
+            })
+    }
+
     render() {
+            var predics = this.state.predictions.map(val => {
+                return (
+                    <View key={val.id}>
+                        <Text>{val.description}</Text>
+                    </View>
+                )
+            })
+
         return (
             <View style={styles.inputContainer}>
-                <GooglePlacesAutocomplete
-                    placeholder='Where would you like to go?'
-                    minLength={2} // minimum length of text to search
-                    autoFocus={false}
-                    returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-                    listViewDisplayed='auto'    // true/false/undefined
-                    fetchDetails={true}
-                    renderDescription={row => row.description} // custom description render
-                    onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
-                    }}
-
-                    getDefaultValue={() => ''}
-
-                    query={{
-                        // available options: https://developers.google.com/places/web-service/autocomplete
-                        key: config.getAPIKEY(),
-                        language: 'en', // language of the results
-                        types: '(cities)' // default: 'geocode'
-                    }}
-
-                    styles={{
-                        textInputContainer: {
-                            backgroundColor: 'rgba(0,0,0,0)',
-                            borderTopWidth: 0,
-                            borderBottomWidth:0
-                          },
-                          textInput: {
-                            marginLeft: 0,
-                            marginRight: 0,
-                            height: 38,
-                            color: '#5d5d5d',
-                            fontSize: 16
-                          },
-                          predefinedPlacesDescription: {
-                            color: '#1faadb'
-                          },
-                    }}
-
-                    currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-                    currentLocationLabel="Current location"
-                    nearbyPlacesAPI='GoogleReverseGeocoding' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                    GoogleReverseGeocodingQuery={{
-                        // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                    }}
-                    GooglePlacesSearchQuery={{
-                        // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                        rankby: 'distance'
-                    }}
-
-                    filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-                    //   predefinedPlaces={[homePlace, workPlace]}
-
-                    debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                    //   renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
-                    // renderRightButton={() => <Text>Q</Text>}
-                />
+                <View>
+                    <TextInput
+                        style={{ height: 40, width: 290, paddingLeft: 10 }}
+                        placeholder={'Where would you like to go?'}
+                        onChangeText={(text) => this.captureInput({ text })}
+                        value={this.state.destination} />
+                    <Button
+                        style={{ height: 35, width: 35, backgroundColor: '#4169e1' }}
+                        textStyle={{ fontSize: 17, color: 'whitesmoke' }}
+                    >Q</Button>
+                </View>
+                <View style={styles.predics}>
+                    {predics}
+                </View>
             </View>
         )
     }
@@ -80,15 +56,20 @@ export default class MapInput extends Component {
 const styles = StyleSheet.create({
     inputContainer: {
         ...StyleSheet.absoluteFillObject,
-        height: 40,
+        height: 640,
         width: 350,
-        // paddingLeft: 15,
-        // paddingRight: 10,
-        // paddingTop: 8,
+        paddingLeft: 15,
+        paddingRight: 15,
         backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 10
     },
+    predics: {
+        ...StyleSheet.absoluteFillObject,
+        height: 100,
+        width: 350,
+        backgroundColor: '#fff'
+    }
 });

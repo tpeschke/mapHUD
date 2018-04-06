@@ -60,7 +60,9 @@ export default class Home extends Component {
             </MapView>
     
             <View style={styles.input}>
-              <MapInput />
+              <MapInput 
+                lat={this.state.lat}
+                long={this.state.long}/>
             </View>
           </View>
         );
@@ -77,7 +79,7 @@ export default class Home extends Component {
       input: {
         zIndex: 1,
         height: 50,
-        width: 350,
+        width: 400,
         marginTop: 35,
         marginLeft: 'auto',
         marginRight: 'auto',
