@@ -34,7 +34,7 @@ export default class MapInput extends Component {
 
         return (
             <View style={styles.inputContainer}>
-                <View>
+                <View style={styles.inputContainer}>
                     <TextInput
                         style={{ height: 40, width: 290, paddingLeft: 10 }}
                         placeholder={'Where would you like to go?'}
