@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 
 export default class Home extends Component {
@@ -12,17 +12,34 @@ export default class Home extends Component {
         }
     }
 
+    static navigationOptions = {
+        header: null
+    }
+
     componentDidMount() {
-        navigator.geolocation.getCurrentPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }),
+        navigator.geolocation
+            .getCurrentPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }, _=>this.props.navigation.navigate('Map',{lat: this.state.lat, long: this.state.long}) ),
           (error) => alert(JSON.stringify(error)),
           { enableHighAccuracy: true})
       }
 
     render(){
         return (
-            <View>
-                <Text>Home</Text>
+            <View style={[styles.container, styles.horizontal]}>
+                <ActivityIndicator size="large" color="#0000ff" />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center'
+    },
+    horizontal: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      padding: 10
+    }
+  })

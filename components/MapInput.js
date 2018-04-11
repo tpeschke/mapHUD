@@ -15,6 +15,7 @@ export default class MapInput extends Component {
         }
     }
 
+
     captureInput = (e) => {
         this.setState({ destination: e.text })
         axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${e.text}&key=${config.getAPIKEY()}&location=${this.props.lat},${this.props.long}`)

@@ -5,59 +5,33 @@ import MapInput from './MapInput'
 
 
 export default class MapComp extends Component {
-  constructor() {
-    super()
-
-    this.state = {
-      lat: -34.397,
-      long: 150.644,
-      id: null
-    }
-
-    this.retrievePosition = this.retrievePosition.bind(this)
-  }
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }),
-      (error) => alert(JSON.stringify(error)),
-      { enableHighAccuracy: true})
-    this.setState({ id: setInterval(_ => this.retrievePosition(), 2000) })
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.id)
-  }
-
-  retrievePosition() {
-    navigator.geolocation
-      .watchPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }),
-        (error) => alert(JSON.stringify(error)),
-        { enableHighAccuracy: true, maximumAge: 1000, distanceFilter: 1 })
-  }
+  static navigationOptions = {
+    header: null
+}
 
   render() {
-    const refreshTrigger = this.state.lat
+    var {long, lat} = this.props.navigation.state.params
 
     return (
       <View style={styles.container}>
         <View style={styles.input}>
           <MapInput 
-                lat={this.state.lat}
-                long={this.state.long}/>
+                lat={lat}
+                long={long}/>
         </View>
-        <View style={{ flex: 6, backgroundColor: 'grey' }}>
+        <View style={{ flex: 8, backgroundColor: 'grey' }}>
           <MapView
             style={styles.map}
             initialRegion={{
-              latitude: this.state.lat,
-              longitude: this.state.long,
+              latitude: lat,
+              longitude: long,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}>
             <Marker
               coordinate={{
-                latitude: this.state.lat,
-                longitude: this.state.long,
+                latitude: lat,
+                longitude: long,
               }}></Marker>
           </MapView>
         </View>
@@ -73,7 +47,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     ...StyleSheet.absoluteFillObject,
-    flex: 4,
+    flex: 5,
     backgroundColor: 'lightblue'
   },
   input: {
