@@ -17,13 +17,14 @@ export default class MapComp extends Component {
         <View style={styles.input}>
           <MapInput 
                 lat={lat}
-                long={long}/>
+                long={long}
+                />
         </View>
         <View style={{ flex: 8, backgroundColor: 'grey' }}>
           <MapView
             style={styles.map}
             initialRegion={{
-              latitude: lat,
+              latitude: lat, 
               longitude: long,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: 'whitesmoke'
+    backgroundColor: '#fff'
   },
   map: {
     ...StyleSheet.absoluteFillObject,

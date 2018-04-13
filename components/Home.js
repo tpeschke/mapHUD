@@ -17,10 +17,14 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        navigator.geolocation
-            .getCurrentPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }, _=>this.props.navigation.navigate('Map',{lat: this.state.lat, long: this.state.long}) ),
-          (error) => alert(JSON.stringify(error)),
-          { enableHighAccuracy: true})
+        if (this.state.lat) {
+            this.props.navigation.navigate('Map',{lat: this.state.lat, long: this.state.long})
+        } else {
+            navigator.geolocation
+                .getCurrentPosition(e => this.setState({ lat: e.coords.latitude, long: e.coords.longitude }, _=>this.props.navigation.navigate('Map',{lat: this.state.lat, long: this.state.long}) ),
+              (error) => alert(JSON.stringify(error)),
+              { enableHighAccuracy: true})
+        }
       }
 
     render(){
