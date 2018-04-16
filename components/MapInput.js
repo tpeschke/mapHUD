@@ -1,49 +1,16 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableHighlight } from 'react-native';
-import config from '../config'
 import Button from 'apsl-react-native-button'
-import axios from 'axios'
 import MapDrop from './MapDrop'
 
 export default class MapInput extends Component {
-    constructor() {
-        super()
-
-        this.state = {
-            destination: null,
-            predictions: [{ id: 1, description: '' }, { id: 2, description: '' }, { id: 3, description: '' }, { id: 4, description: '' }, { id: 5, description: '' }],
-            modalVisible: false,
-            destObj: {}
-        }
-    }
-
-    captureInput = (e) => {
-        this.setState({ destination: e })
-
-        axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${e}&key=${config.getAPIKEY()}&location=${this.props.lat},${this.props.long}`)
-        .then(res => {
-            if (e === '') {
-                this.setState({ predictions: [{ id: 1, description: '' }, { id: 2, description: '' }, { id: 3, description: '' }, { id: 4, description: '' }, { id: 5, description: '' }]})
-            } else {
-                this.setState({ predictions: res.data.predictions })
-            }
-            })
-    }
-
-    setModalVisible = (visible) => {
-        this.setState({ modalVisible: visible });
-    }
-
-    setDestination = (obj) => {
-        this.setState({destObj: obj, destination: obj.description, modalVisible: false})
-    }
 
     render() {
-        const {destination} = this.state;
+        const { destination } = this.props;
 
         const destinationDisplay = function () {
             if (destination.length >= 45) {
-                return destination.substring(0,42) + '...'
+                return destination.substring(0, 42) + '...'
             }
             return destination
         }
@@ -53,7 +20,7 @@ export default class MapInput extends Component {
                 <View style={styles.inputContainer}>
                     <TouchableHighlight
                         onPress={() => {
-                            this.setModalVisible(true);
+                            this.props.setModalVisible(true);
                         }}
                         style={styles.destination}>
                         <Text>{!destination || destination === '' ? 'Where Would You Like to Go?' : destinationDisplay()}</Text>
@@ -64,12 +31,12 @@ export default class MapInput extends Component {
                     >Q</Button>
                 </View>
                 <MapDrop
-                    modalVisible={this.state.modalVisible}
-                    setModalVisible={this.setModalVisible}
+                    modalVisible={this.props.modalVisible}
+                    setModalVisible={this.props.setModalVisible}
                     destination={destination}
-                    captureInput={this.captureInput}
-                    predictions={this.state.predictions}
-                    setDestination={this.setDestination}
+                    captureInput={this.props.captureInput}
+                    predictions={this.props.predictions}
+                    setDestination={this.props.setDestination}
                 />
             </View>
         )
