@@ -18,33 +18,41 @@ export default class MapDrop extends Component {
         })
 
         return (
-            <View>
+            <View style={{ marginTop: 10 }}>
                 <Modal
                     animationType="fade"
                     transparent={false}
                     visible={this.props.modalVisible}
                     onRequestClose={_ => { }}>
 
-                    <View style={{ marginTop: 10 }}>
-                        <View>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={text => this.props.captureInput(text)}
-                                placeholder='Where Would You Like to Go?'
-                                value={this.props.destination}
-                            />
+                    <View style={{ marginTop: 22 }}>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={text => this.props.captureInput(text)}
+                            placeholder='Where Would You Like to Go?'
+                            value={this.props.destination}
+                        />
 
-                            {predics}
+                        {predics}
+
+                    </View>
+                        <View style={styles.buttonContainer}>
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.props.captureInput('');
+                                }}
+                                style={styles.buttonClear}>
+                                <Text>Clear</Text>
+                            </TouchableHighlight>
 
                             <TouchableHighlight
                                 onPress={() => {
                                     this.props.setModalVisible(false);
                                 }}
                                 style={styles.button}>
-                                <Text>Cancel</Text>
+                                <Text style={{ color: 'white' }}>Cancel</Text>
                             </TouchableHighlight>
                         </View>
-                    </View>
                 </Modal>
 
             </View>
@@ -71,6 +79,10 @@ const styles = StyleSheet.create({
         borderTopColor: '#4169e1',
         borderTopWidth: 4,
     },
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row'
+    },
     button: {
         paddingLeft: 35,
         paddingRight: 35,
@@ -80,7 +92,20 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         marginTop: 25,
         marginBottom: 10,
-        backgroundColor: 'lightgrey'
+        backgroundColor: 'grey',
+        height: 40
+    },
+    buttonClear: {
+        paddingLeft: 40,
+        paddingRight: 40,
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 25,
+        marginBottom: 10,
+        backgroundColor: 'lightgrey',
+        height: 40
     },
     input: {
         height: 40,
