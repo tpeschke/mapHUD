@@ -28,7 +28,7 @@ export default class MapInput extends Component {
                     <Button
                         style={{ height: 30, width: 30, backgroundColor: '#4169e1' }}
                         textStyle={{ fontSize: 17, color: 'whitesmoke' }}
-                    >Q</Button>
+                    >-></Button>
                 </View>
                 <MapDrop
                     modalVisible={this.props.modalVisible}
