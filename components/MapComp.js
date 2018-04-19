@@ -20,10 +20,6 @@ export default class MapComp extends Component {
     header: null
   }
 
-  componentDidMount() {
-    console.log(this.props)
-  }
-
   captureInput = (e) => {
     this.setState({ destination: e })
 
@@ -41,9 +37,6 @@ export default class MapComp extends Component {
     axios.get(`https://maps.googleapis.com/maps/api/geocode/json?key=${config.getAPIKEY()}&place_id=${obj.place_id}`)
       .then(res => {
         this.setState({ destObj: res.data.results[0].geometry.location })
-          // this.mapRef.fitToCoordinates(
-          //   [{ latitude: lat, longitude: long }, { latitude: destObj.lat, longitude: destObj.lng }]
-          // ))
       })
     this.setState({ destination: obj.description, modalVisible: false })
   }
@@ -67,11 +60,10 @@ export default class MapComp extends Component {
             predictions={this.state.predictions}
             setModalVisible={this.setModalVisible}
             modalVisible={this.state.modalVisible}
-            />
+          />
         </View>
         <View style={{ flex: 8, backgroundColor: 'grey' }}>
           <MapView
-            ref={mv => this.mapViewRef = mv}
             style={styles.map}
             initialRegion={{
               latitude: lat,
@@ -79,12 +71,13 @@ export default class MapComp extends Component {
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}>
-            {this.state.destObj.lat ? <Marker
-              pinColor={'#4169e1'}
-              coordinate={{
-                latitude: this.state.destObj.lat,
-                longitude: this.state.destObj.lng,
-              }}></Marker>
+            {this.state.destObj.lat ?
+              <Marker
+                pinColor={'#4169e1'}
+                coordinate={{
+                  latitude: this.state.destObj.lat,
+                  longitude: this.state.destObj.lng,
+                }}></Marker>
               : null}
             <Marker
               coordinate={{
