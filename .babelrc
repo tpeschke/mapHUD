@@ -4,8 +4,11 @@
     "development": {
       "presets": ["react-native"],
       "plugins": [
-        "transform-inline-environment-variables"
-      ]
+        "transform-inline-environment-variables", {
+          "include": [
+            "NODE_ENV"
+          ]
+        }]
     }
   }
 }
